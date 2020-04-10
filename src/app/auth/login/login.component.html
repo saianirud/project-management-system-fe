@@ -1,0 +1,32 @@
+<div class="body-style height-100">
+    <form class="form-style">
+        <mat-card fxFlex="100">
+            <mat-card-title>Login</mat-card-title>
+            <div fxLayout="column" fxLayoutGap="10px">
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Email ID</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" appHidePassword>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button mat-button class="button-style" fxFlex="100">Login</button>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex="50">
+                        <a href="/signup">New User? Create One</a>
+                    </div>
+                    <div fxFlex="50" class="forgot-password-style">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </form>
+</div>
