@@ -1,0 +1,49 @@
+<div class="body-style height-100">
+    <form class="form-style">
+        <mat-card fxFlex="100">
+            <mat-card-title>Sign Up</mat-card-title>
+            <div fxLayout="column" fxLayoutGap="10px">
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Email ID</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Security Question</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let securityQuestion of securityQuestions"
+                                [value]="securityQuestion.id">
+                                {{ securityQuestion.securityQuestion }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Answer</mat-label>
+                        <input matInput type="text">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" appHidePassword>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Verify Password</mat-label>
+                        <input matInput type="password" appHidePassword>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button mat-button class="button-style" fxFlex="100">Register</button>
+                </div>
+                <div>
+                    <a href="/login">Existing User? Login</a>
+                </div>
+            </div>
+        </mat-card>
+    </form>
+</div>
