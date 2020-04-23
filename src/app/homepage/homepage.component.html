@@ -1,0 +1,37 @@
+<div fxLayout="column">
+    <div fxFlex="20" class="header-style" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+            <mat-icon class="fa fa-bars bars-style" (click)="snav.toggle()"></mat-icon>
+        </div>
+        <div class="profile-style" fxLayout="row">
+            <mat-divider [vertical]="true"></mat-divider>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">{{ username }}
+                <mat-icon class="fa fa-caret-down"></mat-icon>
+            </button>
+        </div>
+
+        <mat-menu #appMenu="matMenu">
+            <button mat-menu-item>Profile</button>
+            <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+    </div>
+
+    <div>
+        <mat-sidenav-container class="sidenav-container">
+            <mat-sidenav #snav opened="true" mode="side" fxFlex="25">
+                <mat-nav-list class="nav-list-style" fxLayout="column" fxLayoutGap="20px">
+                    <div>
+                        <a routerLink="dashboard">Dashboard</a>
+                    </div>
+                    <div>
+                        <a routerLink="projects">Projects</a>
+                    </div>
+                </mat-nav-list>
+            </mat-sidenav>
+
+            <mat-sidenav-content class="width-100 background-white">
+                <router-outlet></router-outlet>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </div>
+</div>

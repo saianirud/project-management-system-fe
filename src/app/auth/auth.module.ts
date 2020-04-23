@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
@@ -10,11 +10,15 @@ import { MatSelectModule } from '@angular/material/select'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
-        SignupComponent
+        SignupComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent
     ],
     imports: [
         CommonModule,
@@ -25,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
         FlexLayoutModule,
         HttpClientModule,
         MatSelectModule,
+        ReactiveFormsModule,
         SharedModule
     ]
 })

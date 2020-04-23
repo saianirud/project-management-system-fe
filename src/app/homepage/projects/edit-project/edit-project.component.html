@@ -1,0 +1,34 @@
+<div fxLayout="column">
+    <div fxFlex="20" class="close-div-style">
+        <mat-icon class="fa fa-times close-icon" (click)="closeDialog()"></mat-icon>
+    </div>
+    <div fxFex="80" class="main-div-style">
+        <form [formGroup]="editProjectForm" fxLayout="column">
+            <div fxFlex="25" fxLayoutAlign="center center">
+                <mat-form-field fxFlex="40">
+                    <mat-label>Project Name</mat-label>
+                    <input matInput formControlName="projectName" required>
+                    <mat-error *ngIf="editProjectForm.get('projectName').invalid">Project Name required</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxLayoutAlign="center center" fxLayout="row">
+                <mat-form-field fxFlex="40">
+                    <mat-label>Project Description</mat-label>
+                    <textarea matInput formControlName="projectDescription"></textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxLayoutAlign="center center" fxLayout="row">
+                <mat-form-field fxFlex="40">
+                    <mat-label>Project Lead</mat-label>
+                    <mat-select formControlName="projectLead" required>
+                        <mat-option *ngFor="let user of users" [value]="user.username">{{ user.username }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" fxLayoutAlign="center center">
+                <button mat-button fxFlex="40" class="button-style" (click)="updateProject()"
+                    [disabled]="editProjectForm.invalid">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

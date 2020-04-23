@@ -1,0 +1,29 @@
+@import '../../variables';
+
+.sidenav-container {
+    height: 100vh;
+}
+
+.header-style {
+    padding: 10px;
+    background-color: $primaryColor;
+}
+
+.bars-style {
+    font-size: x-large;
+    color: white;
+}
+
+.nav-list-style {
+    margin: 20px;
+    font-size: large;
+}
+
+.profile-style {
+    position: absolute;
+    right: 0px;
+}
+
+.mat-divider-vertical {
+    border-right-color: white;
+}
