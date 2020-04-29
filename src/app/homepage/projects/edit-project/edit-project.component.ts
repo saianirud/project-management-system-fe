@@ -38,7 +38,7 @@ export class EditProjectComponent implements OnInit {
       }
     );
 
-    this.userService.getAllUsers().subscribe(
+    this.userService.getAllAdminsManagers().subscribe(
       (res: any) => {
         this.users = res;
       }

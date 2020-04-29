@@ -1,0 +1,44 @@
+<div class="body-style">
+    <div fxLayout="row" fxLayoutGap="20px">
+        <mat-form-field>
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="dp" [(ngModel)]="startDate">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="dp1" [(ngModel)]="endDate">
+            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+            <mat-datepicker #dp1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-icon class="fa fa-search color-primary search-icon" (click)="getWorklogs()"></mat-icon>
+    </div>
+
+    <div>
+        <table class="table-style">
+            <thead>
+                <tr>
+                    <th>Issue Id</th>
+                    <th>Time logged</th>
+                    <th>Logged Date</th>
+                    <th *ngIf="showEditDeleteWorklog"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let worklog of worklogs; let i = index">
+                    <td>{{ worklog.issueId }}</td>
+                    <td>{{ conversionService.convertMillisecondsToEstimatedTime(worklog.timeSpent) }}</td>
+                    <td>{{ conversionService.getTimeStringFromISO(worklog.logDateTime) }}</td>
+                    <td *ngIf="showEditDeleteWorklog">
+                        <mat-icon class="fa fa-pencil color-primary" (click)="editWorkLog(i, worklog.issueId)">
+                        </mat-icon>
+                        <mat-icon class="fa fa-trash color-red" (click)="deleteWorkLog(i, worklog.id)"></mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -4,6 +4,11 @@
     font-size: x-large;
 }
 
+.plus-icon {
+    position: absolute;
+    right: 0px;
+}
+
 .edit-icon {
     font-size: x-large;
     width: 30px !important;
@@ -28,7 +33,13 @@
     margin-right: 0px;
 }
 
-.work-log-div-style {
+.linked-issues-style {
+    background-color: $issuesColor;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.margin-top {
     margin-top: 30px;
 }
 

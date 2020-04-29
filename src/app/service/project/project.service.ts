@@ -31,4 +31,8 @@ export class ProjectService {
   getProject(projectKey) {
     return this.http.get(this.projectsUrl + '/' + projectKey);
   }
+
+  getProjectWithFilter(projectKey, data) {
+    return this.http.post(this.projectsUrl + '/' + projectKey, data);
+  }
 }

@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
         const payload = {
           username: res.username,
           name: res.name,
+          role: res.role,
           token: res.token
         };
         this.store.dispatch(new AuthActions.AuthenticationSuccess(payload));

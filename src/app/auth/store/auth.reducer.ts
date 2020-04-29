@@ -13,7 +13,7 @@ export function AuthReducer(state: State = initialState, action: AuthActions.Aut
 
     switch (action.type) {
         case AuthActions.AUTHENTICATION_SUCCESS:
-            const user = new User(action.payload.username, action.payload.name, action.payload.token);
+            const user = new User(action.payload.username, action.payload.name, action.payload.role, action.payload.token);
             return {
                 ...state,
                 user: user

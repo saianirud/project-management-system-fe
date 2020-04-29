@@ -6,7 +6,6 @@ import * as WorklogActions from '../../store/worklogs.actions';
 import * as IssueActions from '../../store/issue.actions';
 import { Store } from '@ngrx/store';
 import { WorklogService } from 'src/app/service/worklog/worklog.service';
-import { IssueService } from 'src/app/service/issue/issue.service';
 import { CustomToastrService } from 'src/app/service/toastr/custom-toastr.service';
 import { Issue } from 'src/app/models/issue.model';
 import { RegexService } from 'src/app/service/regex/regex.service';
@@ -26,6 +25,8 @@ export class AddEditLogWorkComponent implements OnInit, OnDestroy {
   public issue: Issue;
   public logDateTime: Date;
   public issueSubscription: Subscription;
+  public authSubscription: Subscription;
+  public worklogSubscription: Subscription;
 
   public workLogForm = this.formBuilder.group({
     timeSpent: this.formBuilder.control('', [Validators.required, Validators.pattern(this.regexService.TIME_ESTIMATE_REGEX)]),
@@ -53,7 +54,7 @@ export class AddEditLogWorkComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.store.select('auth').subscribe(
+    this.authSubscription = this.store.select('auth').subscribe(
       res => {
         this.workLogForm.controls.loggedUser.patchValue(res.user.username);
       }
@@ -62,7 +63,7 @@ export class AddEditLogWorkComponent implements OnInit, OnDestroy {
     this.workLogForm.controls.issue.patchValue(this.data.issue);
 
     if (this.data.index != undefined) {
-      this.worklogData.subscribe(
+      this.worklogSubscription = this.worklogData.subscribe(
         res => {
           if (res.worklogs.length > 0) {
             this.worklogId = res.worklogs[this.data.index].id;
@@ -117,8 +118,12 @@ export class AddEditLogWorkComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.authSubscription.unsubscribe();
     if (this.issueSubscription) {
       this.issueSubscription.unsubscribe();
+    }
+    if (this.worklogSubscription) {
+      this.worklogSubscription.unsubscribe();
     }
   }
 

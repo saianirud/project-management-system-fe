@@ -16,7 +16,25 @@ export class UserService {
     return this.http.get(this.usersUrl);
   }
 
+  getAllAdminsManagers() {
+    return this.http.get(this.usersUrl + '/projectLead');
+  }
+
   getUserByToken(token) {
     return this.http.get(this.getUserByTokenUrl + '/' + token);
+  }
+
+  isAdminOrManager(role) {
+    if (role === 'ADMIN' || role === 'MANAGER') {
+      return true;
+    }
+    return false;
+  }
+
+  isAdmin(role) {
+    if (role === 'ADMIN') {
+      return true;
+    }
+    return false;
   }
 }

@@ -34,6 +34,10 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AssignedIssuesComponent } from './dashboard/assigned-issues/assigned-issues.component';
 import { WorklogsComponent } from './dashboard/worklogs/worklogs.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { AdminManagerDashboardComponent } from './admin-manager-dashboard/admin-manager-dashboard.component';
+import { EditUserComponent } from './admin-manager-dashboard/edit-user/edit-user.component';
+import { LinkIssuesComponent } from './projects/issue-detailed-view/link-issues/link-issues.component';
 
 export const MY_DATE_FORMATS = {
     parse: {
@@ -60,7 +64,10 @@ export const MY_DATE_FORMATS = {
         AddEditLogWorkComponent,
         SummaryComponent,
         AssignedIssuesComponent,
-        WorklogsComponent
+        WorklogsComponent,
+        AdminManagerDashboardComponent,
+        EditUserComponent,
+        LinkIssuesComponent
     ],
     imports: [
         CommonModule,
@@ -82,6 +89,7 @@ export const MY_DATE_FORMATS = {
         NgxChartsModule,
         MatSelectModule,
         ReactiveFormsModule,
+        DragDropModule,
         MatTooltipModule,
         Ng2SearchPipeModule,
         AppRoutingModule,

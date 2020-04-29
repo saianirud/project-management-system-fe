@@ -11,8 +11,9 @@ export class Issue {
     public issueAssignee: User;
     public originalEstimate: number;
     public loggedTime: number;
+    public linkedIssues: any = [];
 
-    constructor(id, issueSummary, issueDescription, issueType, issueCategory, issuePriority, issueReporter, issueAssignee, originalEstimate, loggedTime) {
+    constructor(id, issueSummary, issueDescription, issueType, issueCategory, issuePriority, issueReporter, issueAssignee, originalEstimate, loggedTime, linkedIssues) {
         this.id = id;
         this.issueSummary = issueSummary;
         this.issueDescription = issueDescription;
@@ -23,5 +24,6 @@ export class Issue {
         this.issueAssignee = issueAssignee;
         this.originalEstimate = originalEstimate;
         this.loggedTime = loggedTime;
+        this.linkedIssues = linkedIssues;
     }
 }

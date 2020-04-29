@@ -19,12 +19,18 @@
     <div>
         <mat-sidenav-container class="sidenav-container">
             <mat-sidenav #snav opened="true" mode="side" fxFlex="25">
-                <mat-nav-list class="nav-list-style" fxLayout="column" fxLayoutGap="20px">
-                    <div>
-                        <a routerLink="dashboard">Dashboard</a>
+                <mat-nav-list fxLayout="column">
+                    <div *ngIf="isAdminOrManager">
+                        <a mat-list-item routerLink="admin/dashboard" routerLinkActive="router-active-style"
+                            *ngIf="isAdmin">Admin Dashboard</a>
+                        <a mat-list-item routerLink="manager/dashboard" routerLinkActive="router-active-style"
+                            *ngIf="!isAdmin">Manager Dashboard</a>
                     </div>
                     <div>
-                        <a routerLink="projects">Projects</a>
+                        <a mat-list-item routerLink="dashboard" routerLinkActive="router-active-style">Dashboard</a>
+                    </div>
+                    <div>
+                        <a mat-list-item routerLink="projects" routerLinkActive="router-active-style">Projects</a>
                     </div>
                 </mat-nav-list>
             </mat-sidenav>

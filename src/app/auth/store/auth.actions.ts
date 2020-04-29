@@ -7,7 +7,7 @@ export class AuthenticationSuccess implements Action {
 
     readonly type = AUTHENTICATION_SUCCESS;
 
-    constructor(public payload: { username: string, name: string, token: string }) { }
+    constructor(public payload: { username: String, name: String, role: String, token: String }) { }
 }
 
 export class Logout implements Action {

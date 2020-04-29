@@ -16,6 +16,8 @@ import { WorklogService } from 'src/app/service/worklog/worklog.service';
 import { Subscription } from 'rxjs';
 import { UnitsConversionService } from 'src/app/service/units-conversion/units-conversion.service';
 import { Issue } from 'src/app/models/issue.model';
+import { User } from 'src/app/models/user.model';
+import { LinkIssuesComponent } from './link-issues/link-issues.component';
 
 @Component({
   selector: 'app-issue-detailed-view',
@@ -33,8 +35,10 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
   public loggedTime = '';
   public workLogs = [];
   public logPercentage = 0;
+  public user: User;
   public worklogSubscription: Subscription;
   public issueSubscription: Subscription;
+  public authSubscription: Subscription;
 
   public editIssueForm = this.formBuilder.group({
     issueType: this.formBuilder.control('', [Validators.required]),
@@ -65,9 +69,15 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.authSubscription = this.store.select('auth').subscribe(
+      res => {
+        this.user = res.user;
+      }
+    );
+
     this.issueService.getIssue(this.data.issueId).subscribe(
       (res: any) => {
-        const issue = new Issue(res.id, res.issueSummary, res.issueDescription, res.issueType, res.issueCategory, res.issuePriority, res.issueReporter, res.issueAssignee, res.originalEstimate, res.loggedTime);
+        const issue = new Issue(res.id, res.issueSummary, res.issueDescription, res.issueType, res.issueCategory, res.issuePriority, res.issueReporter, res.issueAssignee, res.originalEstimate, res.loggedTime, res.linkedIssues);
         this.store.dispatch(new IssueActions.UpdateIssue({ issue: issue, index: this.data.originalIndex }));
         this.store.dispatch(new WorklogActions.InitializeWorklogs(res.workLogs));
       }
@@ -78,25 +88,25 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
         if (res.issues.length > 0) {
           this.issue = res.issues[this.data.originalIndex];
           this.editIssueForm.patchValue(this.issue);
-          if (this.issue.issueReporter) {
+          if (this.issue.issueReporter !== undefined && this.issue.issueReporter !== null) {
             this.editIssueForm.controls.issueReporter.patchValue(this.issue.issueReporter.username);
           }
-          if (this.issue.issueAssignee) {
+          if (this.issue.issueAssignee !== undefined && this.issue.issueAssignee !== null) {
             this.editIssueForm.controls.issueAssignee.patchValue(this.issue.issueAssignee.username);
           }
           this.editIssueForm.controls.projectKey.patchValue(this.data.projectKey);
-          if (this.issue.originalEstimate) {
+          if (this.issue.originalEstimate !== undefined) {
             this.editIssueForm.controls.originalEstimate.patchValue(this.conversionService.convertMillisecondsToEstimatedTime(this.issue.originalEstimate));
           }
 
-          if (this.issue.loggedTime) {
+          if (this.issue.loggedTime !== undefined) {
             this.loggedTime = this.conversionService.convertMillisecondsToEstimatedTime(this.issue.loggedTime);
             this.editIssueForm.controls.loggedTime.patchValue(this.loggedTime);
 
             this.logPercentage = (this.issue.loggedTime * 100) / this.issue.originalEstimate;
           }
 
-          if (this.issue.issueType) {
+          if (this.issue.issueType !== undefined) {
             this.issueService.getAllIssueTypes().subscribe(
               res => {
                 this.issueTypes = res;
@@ -108,7 +118,7 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
             );
           }
 
-          if (this.issue.issuePriority) {
+          if (this.issue.issuePriority !== undefined) {
             this.issueService.getAllIssuePriorities().subscribe(
               res => {
                 this.issuePriorities = res;
@@ -120,7 +130,7 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
             );
           }
 
-          if (this.issue.issueCategory) {
+          if (this.issue.issueCategory !== undefined) {
             this.issueService.getAllIssueCategories().subscribe(
               res => {
                 this.issueCategories = res;
@@ -138,6 +148,38 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
     this.userService.getAllUsers().subscribe(
       (res: any) => {
         this.users = res;
+      }
+    );
+  }
+
+  linkIssues() {
+    this.dialog.openDialog(LinkIssuesComponent, {
+      index: this.data.originalIndex
+    }, '40%', '30%');
+  }
+
+  unlinkIssues(dependentIssueId, linkIndex) {
+    const dialogRef = this.dialog.openDialog(ConfirmationDialogComponent, null, '20%', '30%');
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res) {
+          const linkedIssues = [];
+          linkedIssues.push(dependentIssueId);
+          const payload = {
+            issueId: this.issue.id,
+            linkedIssues: linkedIssues
+          }
+          this.issueService.unlinkIssue(payload).subscribe(
+            (res: any) => {
+              const issue: Issue = { ...this.issue };
+              const linkedIssues = [...issue.linkedIssues];
+              linkedIssues.splice(linkIndex, 1);
+              issue.linkedIssues = linkedIssues;
+              this.store.dispatch(new IssueActions.UpdateIssue({ index: this.data.originalIndex, issue: issue }));
+              this.toastr.showSuccess('Issue detached successfully!');
+            }
+          );
+        }
       }
     );
   }
@@ -212,9 +254,17 @@ export class IssueDetailedViewComponent implements OnInit, OnDestroy {
     return (new Date(time)).toLocaleString();
   }
 
+  showEditDeleteWorklog(index) {
+    if (this.userService.isAdmin(this.user.role) || (this.user.username === this.workLogs[index].loggedUser.username)) {
+      return true;
+    }
+    return false;
+  }
+
   ngOnDestroy() {
     this.issueSubscription.unsubscribe();
     this.worklogSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
     this.store.dispatch(new WorklogActions.ClearWorklogs());
   }
 

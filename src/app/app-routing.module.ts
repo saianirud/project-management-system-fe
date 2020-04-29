@@ -10,6 +10,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { AutoLoginGuard } from './guard/auto-login.guard';
 import { ProjectsComponent } from './homepage/projects/projects.component';
 import { ProjectDetailViewComponent } from './homepage/projects/project-detail-view/project-detail-view.component';
+import { AdminManagerDashboardComponent } from './homepage/admin-manager-dashboard/admin-manager-dashboard.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,8 @@ const routes: Routes = [
   {
     path: 'homepage', component: HomepageComponent, canActivate: [AuthGuard],
     children: [
+      { path: 'admin/dashboard', component: AdminManagerDashboardComponent },
+      { path: 'manager/dashboard', component: AdminManagerDashboardComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'projects/:projectKey', component: ProjectDetailViewComponent }

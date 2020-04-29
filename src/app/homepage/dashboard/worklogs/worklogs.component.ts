@@ -24,6 +24,7 @@ export class WorklogsComponent implements OnInit, OnDestroy {
   public startDate: moment.Moment;
   public endDate: moment.Moment;
   public worklogSubscription: Subscription;
+  public authSubscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>, private dashboardService: DashboardService,
     public conversionService: UnitsConversionService, private dialog: DialogContainerService,
@@ -34,7 +35,7 @@ export class WorklogsComponent implements OnInit, OnDestroy {
     this.endDate = moment().utc(true).startOf('day');
     this.startDate = moment().utc(true).startOf('day').subtract(7, 'days');
 
-    this.store.select('auth').subscribe(
+    this.authSubscription = this.store.select('auth').subscribe(
       res => {
         if (res.user) {
           this.username = res.user.username;
@@ -90,6 +91,7 @@ export class WorklogsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.worklogSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
     this.store.dispatch(new WorklogActions.ClearWorklogs());
   }
 

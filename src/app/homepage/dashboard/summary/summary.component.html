@@ -7,8 +7,8 @@
         </ngx-charts-pie-chart>
 
         <div fxLayout="column">
-            <mat-label>SAUNF</mat-label>
-            <ngx-charts-advanced-pie-chart fxFlex="70" *ngIf="eachProjectResult.length > 0"
+            <mat-label class="project-label-style">{{ projectLabel }}</mat-label>
+            <ngx-charts-advanced-pie-chart fxFlex="70" *ngIf="eachProjectResult && eachProjectResult.length > 0"
                 [view]="projectsAdvancedView" [results]="eachProjectResult" [gradient]="gradient">
             </ngx-charts-advanced-pie-chart>
         </div>

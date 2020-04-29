@@ -18,13 +18,14 @@ export class AssignedIssuesComponent implements OnInit, OnDestroy {
   public searchText = '';
   public assignedIssues = [];
   public issueSubscription: Subscription;
+  public authSubscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>, private dashboardService: DashboardService,
     private dialog: DialogContainerService) { }
 
   ngOnInit(): void {
 
-    this.store.select('auth').subscribe(
+    this.authSubscription = this.store.select('auth').subscribe(
       res => {
         if (res.user) {
           this.username = res.user.username;
@@ -63,6 +64,7 @@ export class AssignedIssuesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.issueSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
     this.store.dispatch(new IssueActions.ClearIssues());
   }
 

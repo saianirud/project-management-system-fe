@@ -1,0 +1,19 @@
+<div>
+    <mat-tab-group>
+        <mat-tab label="Summary">
+            <ng-template matTabContent>
+                <app-dashboard-summary [username]="username"></app-dashboard-summary>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Assigned Issues">
+            <ng-template matTabContent>
+                <app-dashboard-assigned-issues [username]="username"></app-dashboard-assigned-issues>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Worklogs">
+            <ng-template matTabContent>
+                <app-dashboard-worklog [username]="username"></app-dashboard-worklog>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

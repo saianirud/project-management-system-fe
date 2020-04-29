@@ -13,7 +13,7 @@
         </div>
     </div>
     <div fxFex="80">
-        <form [formGroup]="editIssueForm" fxLayout="row" fxLayoutGap="20px">
+        <form [formGroup]="editIssueForm" fxLayout="row" fxLayoutGap="30px">
             <div fxFlex="65">
                 <div *ngIf="!editMode">
                     <h1>{{ editIssueForm.get('issueSummary').value }}</h1>
@@ -37,7 +37,21 @@
                         <textarea matInput formControlName="issueDescription"></textarea>
                     </mat-form-field>
                 </div>
-                <div class="work-log-div-style">
+                <div>
+                    <div class="position-relative margin-top" fxLayout="row" fxLayoutAlign="space-between center">
+                        <h4>Linked Issues</h4>
+                        <mat-icon class="fa fa-plus color-primary plus-icon" (click)="linkIssues()"></mat-icon>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" class="overflow-auto">
+                        <div *ngFor="let link of issue.linkedIssues; let i = index" fxLayout="row" fxLayoutGap="10px"
+                            fxLayoutAlign="space-between center" class="linked-issues-style">
+                            <span>{{ link.linkedIssuesPK.dependentIssueId }}</span>
+                            <mat-icon class="fa fa-times"
+                                (click)="unlinkIssues(link.linkedIssuesPK.dependentIssueId, i)"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin-top">
                     <h4>Work Log</h4>
                     <div *ngFor="let workLog of workLogs; let i = index">
                         <mat-divider class="divider-style"></mat-divider>
@@ -54,7 +68,7 @@
                         <div class="margin-bottom-10" *ngIf="workLog.workDescription">
                             {{ workLog.workDescription }}
                         </div>
-                        <div fxLayout="row">
+                        <div fxLayout="row" *ngIf="showEditDeleteWorklog(i)">
                             <mat-icon class="fa fa-pencil color-primary margin-right" (click)="editWorkLog(i)">
                             </mat-icon>
                             <mat-icon class="fa fa-trash color-red" (click)="deleteWorkLog(i)"></mat-icon>

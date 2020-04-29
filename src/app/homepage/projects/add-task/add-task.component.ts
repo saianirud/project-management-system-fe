@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IssueService } from 'src/app/service/issue/issue.service';
@@ -7,17 +7,20 @@ import * as fromApp from 'src/app/store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as IssueActions from '../store/issue.actions';
 import { CustomToastrService } from 'src/app/service/toastr/custom-toastr.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.component.html',
   styleUrls: ['./add-task.component.scss']
 })
-export class AddTaskComponent implements OnInit {
+export class AddTaskComponent implements OnInit, OnDestroy {
 
   public issueTypes = [];
   public issuePriorities = [];
   public users = [];
+
+  public authSubscription: Subscription;
 
   public addIssueForm = this.formBuilder.group({
     issueType: this.formBuilder.control('', [Validators.required]),
@@ -61,7 +64,7 @@ export class AddTaskComponent implements OnInit {
       }
     );
 
-    this.store.select('auth').subscribe(
+    this.authSubscription = this.store.select('auth').subscribe(
       res => {
         this.addIssueForm.controls.issueReporter.patchValue(res.user.username);
         this.addIssueForm.controls.issueAssignee.patchValue(res.user.username);
@@ -83,6 +86,10 @@ export class AddTaskComponent implements OnInit {
         this.toastr.showSuccess('Issue added successfully!');
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.authSubscription.unsubscribe();
   }
 
 }

@@ -1,0 +1,10 @@
+<div>
+    <mat-form-field>
+        <mat-label>{{ label }}</mat-label>
+        <mat-select [(ngModel)]="selectedValues" multiple>
+            <mat-option value="All" (click)="allOptionClicked()">All</mat-option>
+            <mat-option *ngFor="let each of data" [value]="each.value" (click)="singleOptionClicked()">
+                {{ each.name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

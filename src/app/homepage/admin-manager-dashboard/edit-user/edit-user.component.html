@@ -1,0 +1,20 @@
+<div>
+    <div class="position-relative">
+        <div class="close-div-style">
+            <mat-icon class="fa fa-times close-icon" (click)="closeDialog()"></mat-icon>
+        </div>
+    </div>
+    <div fxLayout="column">
+        <mat-label class="margin-top">Name: {{ user.name ? user.name : 'NA' }}</mat-label>
+        <mat-label class="margin-top">Username: {{ user.username }}</mat-label>
+        <mat-form-field class="margin-top">
+            <mat-label>Role</mat-label>
+            <mat-select [(ngModel)]="userRole">
+                <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div fxLayoutAlign="center center">
+            <button mat-button fxFlex="40" class="button-style" (click)="updateUser()">Submit</button>
+        </div>
+    </div>
+</div>

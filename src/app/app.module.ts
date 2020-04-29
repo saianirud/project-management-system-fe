@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { HomePageModule } from './homepage/homepage.module';
 import { SharedModule } from './shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomHttpInterceptor } from './interceptor/http.interceptor';
@@ -24,6 +25,7 @@ import * as fromApp from './store/app.reducer'
     AppRoutingModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     ToastrModule.forRoot({
       closeButton: true
     }),

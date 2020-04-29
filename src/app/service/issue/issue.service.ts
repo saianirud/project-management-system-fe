@@ -85,4 +85,12 @@ export class IssueService {
   deleteIssue(issueId) {
     return this.http.delete(this.issuesUrl + '/' + issueId);
   }
+
+  linkIssue(data) {
+    return this.http.post(this.issuesUrl + '/linkIssues', data);
+  }
+
+  unlinkIssue(data) {
+    return this.http.post(this.issuesUrl + '/unlinkIssues', data);
+  }
 }

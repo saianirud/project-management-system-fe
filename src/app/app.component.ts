@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import * as AuthActions from './auth/store/auth.actions';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { LoadingSpinnerService } from './service/loading-spinner/loading-spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,18 @@ import { throwError } from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router, private store: Store<fromApp.AppState>) { }
+  public isLoading = false;
+
+  constructor(private userService: UserService, private router: Router, private store: Store<fromApp.AppState>,
+    private spinner: LoadingSpinnerService) { }
 
   ngOnInit(): void {
+
+    this.spinner.showSpinner.subscribe(
+      res => {
+        this.isLoading = res;
+      }
+    );
 
     const token = localStorage.getItem('token');
 
@@ -31,6 +41,7 @@ export class AppComponent implements OnInit {
             const payload = {
               username: res.username,
               name: res.name,
+              role: res.role,
               token: res.token
             };
             this.store.dispatch(new AuthActions.AuthenticationSuccess(payload));

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as fromApp from '../../../store/app.reducer';
@@ -6,13 +6,16 @@ import { Store } from '@ngrx/store';
 import * as ProjectActions from '../store/project.actions';
 import { ProjectService } from 'src/app/service/project/project.service';
 import { CustomToastrService } from 'src/app/service/toastr/custom-toastr.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
   styleUrls: ['./add-project.component.scss']
 })
-export class AddProjectComponent implements OnInit {
+export class AddProjectComponent implements OnInit, OnDestroy {
+
+  public authSubscription: Subscription;
 
   public addProjectForm = this.formBuilder.group({
     projectName: this.formBuilder.control('', [Validators.required]),
@@ -26,7 +29,7 @@ export class AddProjectComponent implements OnInit {
     private toastr: CustomToastrService) { }
 
   ngOnInit(): void {
-    this.store.select('auth').subscribe(
+    this.authSubscription = this.store.select('auth').subscribe(
       res => {
         this.addProjectForm.controls.projectLead.patchValue(res.user.username);
       }
@@ -47,6 +50,10 @@ export class AddProjectComponent implements OnInit {
         this.dialogRef.close();
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.authSubscription.unsubscribe();
   }
 
 }
