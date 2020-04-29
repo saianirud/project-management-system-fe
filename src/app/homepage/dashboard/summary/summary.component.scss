@@ -1,0 +1,25 @@
+.margin-style {
+    margin: 10px;
+}
+
+.search-icon {
+    font-size: large;
+    align-self: center;
+}
+
+.project-label-style {
+    margin-left: 20px;
+    font-weight: 600;
+}
+
+::ng-deep .advanced-pie-legend .total-label {
+    margin-top: 10px;
+}
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+    margin-top: 0px !important;
+}
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+    margin-top: 0px !important;
+}

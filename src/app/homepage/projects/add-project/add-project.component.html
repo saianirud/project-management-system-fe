@@ -1,0 +1,39 @@
+<div fxLayout="column">
+    <div fxFlex="20" class="close-div-style">
+        <mat-icon class="fa fa-times close-icon" (click)="closeDialog()"></mat-icon>
+    </div>
+    <div fxFex="80" class="main-div-style">
+        <form [formGroup]="addProjectForm" fxLayout="column">
+            <div fxFlex="25" fxLayoutAlign="center center">
+                <mat-form-field fxFlex="40">
+                    <mat-label>Project Name</mat-label>
+                    <input matInput formControlName="projectName" required>
+                    <mat-error *ngIf="addProjectForm.get('projectName').invalid">Project Name required</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxLayoutAlign="center center" fxLayout="row">
+                <mat-form-field fxFlex="38">
+                    <mat-label>Project Key</mat-label>
+                    <input matInput formControlName="projectKey" required>
+                    <mat-error *ngIf="addProjectForm.get('projectKey').invalid && !addProjectForm.value.projectKey">
+                        Project key is required</mat-error>
+                    <mat-error *ngIf="addProjectForm.get('projectKey').invalid && addProjectForm.value.projectKey">Max
+                        of 5 characters</mat-error>
+                </mat-form-field>
+                <mat-icon class="fa fa-info-circle"
+                    matTooltip="The project key is used as the prefix of your project's issue keys (e.g. 'TEST-100'). Choose one that is descriptive and easy to type.">
+                </mat-icon>
+            </div>
+            <div fxFlex="25" fxLayoutAlign="center center" fxLayout="row">
+                <mat-form-field fxFlex="40">
+                    <mat-label>Project Description</mat-label>
+                    <textarea matInput formControlName="projectDescription"></textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxLayoutAlign="center center">
+                <button mat-button fxFlex="40" class="button-style" (click)="addProject()"
+                    [disabled]="addProjectForm.invalid">Create</button>
+            </div>
+        </form>
+    </div>
+</div>

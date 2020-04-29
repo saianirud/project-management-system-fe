@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +8,35 @@ import { throwError } from 'rxjs';
 export class AuthService {
 
   private securityQuestionsUrl = environment.server + '/auth' + '/securityQuestions';
+  private loginUserUrl = environment.server + '/auth' + '/login';
+  private registerUserUrl = environment.server + '/auth' + '/signup';
+  private forgotPasswordUrl = environment.server + '/auth' + '/forgotPassword';
+  private resetPasswordUrl = environment.server + '/auth' + '/resetPassword';
+  public securityQuestions = [];
 
   constructor(private http: HttpClient) { }
 
   getSecurityQuestions() {
-    return this.http.get(this.securityQuestionsUrl)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get(this.securityQuestionsUrl);
   }
 
-  private handleError(err: HttpErrorResponse) {
-    return throwError(err);
+  registerUser(data) {
+    return this.http.post(this.registerUserUrl, data);
+  }
+
+  loginUser(data) {
+    return this.http.post(this.loginUserUrl, data);
+  }
+
+  forgotPassword(data) {
+    return this.http.post(this.forgotPasswordUrl, data);
+  }
+
+  resetPasswordVerifyToken(token) {
+    return this.http.get(this.resetPasswordUrl + '/' + token);
+  }
+
+  resetPassword(data) {
+    return this.http.post(this.resetPasswordUrl, data);
   }
 }

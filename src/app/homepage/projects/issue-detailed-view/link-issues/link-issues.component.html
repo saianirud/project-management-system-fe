@@ -1,0 +1,19 @@
+<div>
+    <div class="position-relative" fxLayout="row">
+        <h3>Link Issues</h3>
+        <div class="close-div-style">
+            <mat-icon class="fa fa-times close-icon" (click)="closeDialog()">
+            </mat-icon>
+        </div>
+    </div>
+
+    <div class="width-100">
+        <app-mat-multi-select label='Issue Id' [data]="linkData" (valuesSelected)="selectedValues = $event">
+        </app-mat-multi-select>
+    </div>
+
+    <div fxLayoutAlign="center center">
+        <button mat-button fxFlex="40" class="button-style" [disabled]="selectedValues.length === 0"
+            (click)="submitLinkIssues()">Submit</button>
+    </div>
+</div>

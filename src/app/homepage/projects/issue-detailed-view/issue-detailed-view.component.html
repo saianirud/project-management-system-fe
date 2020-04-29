@@ -1,0 +1,208 @@
+<div fxLayout="column">
+    <div fxFlex="20" fxLayout="row" class="position-relative">
+        <div>
+            <h3>{{ issue.id }}</h3>
+        </div>
+        <div class="close-div-style">
+            <mat-icon class="fa fa-ellipsis-h edit-icon" [matMenuTriggerFor]="appMenu"></mat-icon>
+            <mat-icon class="fa fa-times close-icon" (click)="closeDialog()"></mat-icon>
+            <mat-menu #appMenu="matMenu">
+                <button mat-menu-item (click)="editMode = true" *ngIf="!editMode">Edit</button>
+                <button mat-menu-item (click)="deleteIssue()">Delete</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div fxFex="80">
+        <form [formGroup]="editIssueForm" fxLayout="row" fxLayoutGap="30px">
+            <div fxFlex="65">
+                <div *ngIf="!editMode">
+                    <h1>{{ editIssueForm.get('issueSummary').value }}</h1>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field fxFlex="50">
+                        <mat-label>Issue Summary</mat-label>
+                        <input matInput formControlName="issueSummary" required>
+                        <mat-error *ngIf="editIssueForm.get('issueSummary').invalid">Issue summary required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!editMode">
+                    <h4 class="issue-description-style">Issue Description</h4>
+                    <div>
+                        {{ editIssueForm.value.issueDescription ? editIssueForm.value.issueDescription : 'Click edit to add description' }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field fxFlex="80">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="issueDescription"></textarea>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <div class="position-relative margin-top" fxLayout="row" fxLayoutAlign="space-between center">
+                        <h4>Linked Issues</h4>
+                        <mat-icon class="fa fa-plus color-primary plus-icon" (click)="linkIssues()"></mat-icon>
+                    </div>
+                    <div *ngIf="!issue.linkedIssues || issue.linkedIssues.length === 0">
+                        No issues linked.
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" class="overflow-auto">
+                        <div *ngFor="let link of issue.linkedIssues; let i = index" fxLayout="row" fxLayoutGap="10px"
+                            fxLayoutAlign="space-between center" class="linked-issues-style">
+                            <span>{{ link.linkedIssuesPK.dependentIssueId }}</span>
+                            <mat-icon class="fa fa-times"
+                                (click)="unlinkIssues(link.linkedIssuesPK.dependentIssueId, i)"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin-top">
+                    <h4>Work Log</h4>
+                    <div *ngIf="workLogs.length === 0" fxLayout="column" class="text-align-center">
+                        <mat-icon class="fa fa-clock-o clock-style"></mat-icon>
+                        <mat-label>Log some work</mat-label>
+                    </div>
+                    <div *ngFor="let workLog of workLogs; let i = index">
+                        <mat-divider class="divider-style"></mat-divider>
+                        <div fxLayout="row" class="margin-bottom-10">
+                            <div class="margin-right">
+                                {{ workLog.loggedUser.name ? workLog.loggedUser.name : workLog.loggedUser.username }}
+                            </div>
+                            <div class="margin-right">
+                                <b>logged
+                                    {{conversionService.convertMillisecondsToEstimatedTime(workLog.timeSpent)}}</b>
+                            </div>
+                            <div>{{ convertToLocalTime(workLog.logDateTime) }}</div>
+                        </div>
+                        <div class="margin-bottom-10" *ngIf="workLog.workDescription">
+                            {{ workLog.workDescription }}
+                        </div>
+                        <div fxLayout="row" *ngIf="showEditDeleteWorklog(i)">
+                            <mat-icon class="fa fa-pencil color-primary margin-right" (click)="editWorkLog(i)">
+                            </mat-icon>
+                            <mat-icon class="fa fa-trash color-red" (click)="deleteWorkLog(i)"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="35">
+                <div *ngIf="!editMode" class="margin-bottom">
+                    <h4>Category</h4>
+                    <div>
+                        {{ editIssueForm.value.issueCategory.issueCategory }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field>
+                        <mat-label>Issue Category</mat-label>
+                        <mat-select formControlName="issueCategory" required>
+                            <mat-option *ngFor="let issueCategory of issueCategories" [value]="issueCategory">
+                                {{ issueCategory.issueCategory }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!editMode" class="margin-bottom">
+                    <h4>Type</h4>
+                    <div>
+                        <mat-icon [ngClass]="editIssueForm.value.issueType.issueTypeIcon"></mat-icon>
+                        {{ editIssueForm.value.issueType.issueType }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field>
+                        <mat-label>Issue Type</mat-label>
+                        <mat-select formControlName="issueType" required>
+                            <mat-select-trigger>
+                                <mat-icon [ngClass]="editIssueForm.value.issueType.issueTypeIcon"></mat-icon>
+                                {{ editIssueForm.value.issueType.issueType }}
+                            </mat-select-trigger>
+                            <mat-option *ngFor="let issueType of issueTypes" [value]="issueType">
+                                <mat-icon [ngClass]="issueType.issueTypeIcon"></mat-icon>
+                                {{ issueType.issueType }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!editMode" class="margin-bottom">
+                    <h4>Priority</h4>
+                    <div>
+                        <mat-icon [ngClass]="editIssueForm.value.issuePriority.issuePriorityIcon"></mat-icon>
+                        {{ editIssueForm.value.issuePriority.issuePriority }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field>
+                        <mat-label>Priority</mat-label>
+                        <mat-select formControlName="issuePriority" required>
+                            <mat-select-trigger>
+                                <mat-icon [ngClass]="editIssueForm.value.issuePriority.issuePriorityIcon"></mat-icon>
+                                {{ editIssueForm.value.issuePriority.issuePriority }}
+                            </mat-select-trigger>
+                            <mat-option *ngFor="let issuePriority of issuePriorities" [value]="issuePriority">
+                                <mat-icon [ngClass]="issuePriority.issuePriorityIcon"></mat-icon>
+                                {{ issuePriority.issuePriority }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!editMode" class="margin-bottom">
+                    <h4>Reporter</h4>
+                    <div>
+                        {{ editIssueForm.value.issueReporter }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field>
+                        <mat-label>Reporter</mat-label>
+                        <mat-select formControlName="issueReporter" required>
+                            <mat-option *ngFor="let user of users" [value]="user.username">
+                                {{ user.name ? user.name : user.username }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!editMode" class="margin-bottom">
+                    <h4>Assignee</h4>
+                    <div>
+                        {{ editIssueForm.value.issueAssignee }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field>
+                        <mat-label>Assignee</mat-label>
+                        <mat-select formControlName="issueAssignee" required>
+                            <mat-option *ngFor="let user of users" [value]="user.username">
+                                {{ user.name ? user.name : user.username }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!editMode" class="margin-bottom">
+                    <h4>Original Estimate</h4>
+                    <div>
+                        {{ editIssueForm.value.originalEstimate }}
+                    </div>
+                </div>
+                <div *ngIf="editMode">
+                    <mat-form-field>
+                        <mat-label>Original Estimate</mat-label>
+                        <input matInput formControlName="originalEstimate">
+                        <mat-error *ngIf="editIssueForm.get('originalEstimate').invalid">Invalid format. Eg: 2w 3d 4h 2m
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <div>
+                        <h4>Time Tracking</h4>
+                        <div class="log-work-div-style" (click)="logWork()">
+                            <mat-progress-bar class="color-primary" mode="determinate" [value]="logPercentage">
+                            </mat-progress-bar>
+                            <label>{{ loggedTime }} logged</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div fxLayoutAlign="center center">
+            <button mat-button fxFlex="40" *ngIf="editMode" class="button-style" (click)="updateIssue()"
+                [disabled]="editIssueForm.invalid">Update</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="body-style">
+    <div>
+        <div fxLayout="row" class="search-add-style">
+            <div>
+                <app-search-filter (emitSearchText)="searchText = $event"></app-search-filter>
+            </div>
+            <div class="add-div-style" *ngIf="isAdminOrManager">
+                <button class="fa fa-plus" (click)="addProject()"><b class="add-style">Add</b></button>
+            </div>
+        </div>
+
+        <div>
+            <table class="table-style">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Key</th>
+                        <th>Type</th>
+                        <th>Lead</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let project of projects | filter: searchText">
+                        <td>{{ project.projectName }}</td>
+                        <td>{{ project.projectKey }}</td>
+                        <td>{{ project.projectType }}</td>
+                        <td>{{ project.projectLead.name ?  project.projectLead.name : project.projectLead.username }}
+                        </td>
+                        <td>
+                            <mat-icon class="fa fa-eye color-primary" (click)="openProjectDetails(project.projectKey)">
+                            </mat-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

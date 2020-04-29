@@ -1,0 +1,29 @@
+<div class="body-style">
+    <div fxLayout="row" class="search-add-style">
+        <app-search-filter (emitSearchText)="searchText = $event"></app-search-filter>
+    </div>
+
+    <div>
+        <table class="table-style">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th *ngIf="isAdmin"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users | filter: searchText; let i = index">
+                    <td class="cursor-pointer" (click)="openUserDashboard(user.username)">{{ user.username }}</td>
+                    <td>{{ user.name ? user.name : 'NA' }}</td>
+                    <td>{{ user.role }}</td>
+                    <td *ngIf="isAdmin">
+                        <mat-icon class="fa fa-pencil color-primary" (click)="editUser(i)"></mat-icon>
+                        <mat-icon class="fa fa-trash color-red" (click)="deleteUser(i, user.username)"></mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

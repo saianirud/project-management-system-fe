@@ -1,0 +1,42 @@
+<div fxLayout="column" class="margin-style" fxLayoutGap="10px">
+
+    <mat-card fxLayout="row">
+        <ngx-charts-pie-chart fxFlex="40" *ngIf="projectsResult.length > 0" [view]="projectsView"
+            [results]="projectsResult" [legend]="showLegend" [gradient]="gradient"
+            (select)="onProjectSelection($event.name)" [legendPosition]="legendPosition">
+        </ngx-charts-pie-chart>
+
+        <div fxLayout="column">
+            <mat-label class="project-label-style">{{ projectLabel }}</mat-label>
+            <ngx-charts-advanced-pie-chart fxFlex="70" *ngIf="eachProjectResult && eachProjectResult.length > 0"
+                [view]="projectsAdvancedView" [results]="eachProjectResult" [gradient]="gradient">
+            </ngx-charts-advanced-pie-chart>
+        </div>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-content>
+            <div fxLayout="row" fxLayoutGap="20px">
+                <mat-form-field>
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="dp" [(ngModel)]="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="dp1" [(ngModel)]="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                    <mat-datepicker #dp1></mat-datepicker>
+                </mat-form-field>
+
+                <mat-icon class="fa fa-search color-primary search-icon" (click)="searchWorklog()"></mat-icon>
+            </div>
+            <ngx-charts-line-chart [view]="worklogView" *ngIf="worklogResult.length > 0" [legend]="showLegend"
+                [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true" [xAxisLabel]="'Date'"
+                [yAxisLabel]="'Hours'" [results]="worklogResult">
+            </ngx-charts-line-chart>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,77 @@
+@import 'src/_variables.scss';
+
+.close-icon {
+    font-size: x-large;
+}
+
+.plus-icon {
+    position: absolute;
+    right: 0px;
+}
+
+.edit-icon {
+    font-size: x-large;
+    width: 30px !important;
+    text-align: center;
+    margin-right: 20px !important;
+    &:hover {
+        background-color: $hoverColor;
+    }
+}
+
+.close-div-style {
+    position: absolute;
+    right: 0px;
+}
+
+.button-style {
+    margin-top: 20px;
+}
+
+.mat-icon {
+    width: 15px;
+    margin-right: 0px;
+}
+
+.clock-style {
+    width: 100%;
+    font-size: -webkit-xxx-large;
+}
+
+.linked-issues-style {
+    background-color: $issuesColor;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.margin-top {
+    margin-top: 30px;
+}
+
+h4 {
+    margin: 0px !important;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.log-work-div-style {
+    cursor: pointer;
+    &:hover {
+        background-color: $hoverColor;
+    }
+}
+
+.margin-right {
+    margin-right: 10px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.divider-style {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

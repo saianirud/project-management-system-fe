@@ -1,12 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
+@import './variables';
+
+@import '../node_modules/ngx-toastr/toastr.css';
+
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 @include mat-core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$candy-app-primary: mat-palette($mat-green);
+$candy-app-primary: mat-palette($mat-blue);
 $candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -21,7 +26,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 @include angular-material-theme($candy-app-theme);
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, Arial, sans-serif; }
 
 .height-100 {
     height: 100%;
@@ -33,4 +38,81 @@ body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+button {
+    background-color: $primaryColor;
+    color: white;
+    cursor: pointer;
+    font-size: medium;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    &:disabled {
+        color: black;
+        background-color: $disabledColor;
+        cursor: default;
+    }
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.mat-progress-bar-fill::after {
+    background-color: $primaryColor;
+}
+
+.mat-error {
+    font-size: 13px;
+}
+
+.background-white {
+    background: white;
+}
+
+mat-icon {
+    cursor: pointer;
+    height: auto !important;
+}
+
+a {
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    background-color: $tableBackgroundColor;
+    thead {
+        background-color:#c2c2c2;
+    }
+}
+
+.color-primary {
+    color: $primaryColor;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-orange {
+    color: orange;
+}
+
+.color-green {
+    color: green;
+}
+
+.position-relative {
+    position: relative;
+}
+
+h1, h2, h3, h4 ,h5 {
+    font-weight: 600 !important;
 }

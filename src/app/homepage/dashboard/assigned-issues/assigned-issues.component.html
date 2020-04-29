@@ -1,0 +1,38 @@
+<div class="body-style">
+    <div fxLayout="row" class="search-add-style">
+        <app-search-filter (emitSearchText)="searchText = $event"></app-search-filter>
+    </div>
+
+    <div>
+        <table class="table-style">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Issue Priority</th>
+                    <th>Issue Type</th>
+                    <th>Issue Category</th>
+                    <th>Project</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let assignedIssue of assignedIssues | filter: searchText; let i = index">
+                    <td><a
+                            (click)="openIssueDetailedView(i, assignedIssue.id, assignedIssue.projectKey)">{{ assignedIssue.id }}</a>
+                    </td>
+                    <td>
+                        <mat-icon [ngClass]="assignedIssue.issuePriority.issuePriorityIcon"></mat-icon>
+                        {{ assignedIssue.issuePriority.issuePriority }}
+                    </td>
+                    <td>
+                        <mat-icon [ngClass]="assignedIssue.issueType.issueTypeIcon"></mat-icon>
+                        {{ assignedIssue.issueType.issueType }}
+                    </td>
+                    <td>{{ assignedIssue.issueCategory.issueCategory }}</td>
+                    <td>
+                        <a>{{ assignedIssue.projectKey }}</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div fxLayout="column">
+    <div fxFlex="20" class="header-style" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+            <mat-icon class="fa fa-bars bars-style" (click)="snav.toggle()"></mat-icon>
+        </div>
+        <div class="profile-style" fxLayout="row">
+            <mat-divider [vertical]="true"></mat-divider>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">{{ username }}
+                <mat-icon class="fa fa-caret-down"></mat-icon>
+            </button>
+        </div>
+
+        <mat-menu #appMenu="matMenu">
+            <button mat-menu-item>Profile</button>
+            <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+    </div>
+
+    <div>
+        <mat-sidenav-container class="sidenav-container">
+            <mat-sidenav #snav opened="true" mode="side" fxFlex="25">
+                <mat-nav-list fxLayout="column">
+                    <div *ngIf="isAdminOrManager">
+                        <a mat-list-item routerLink="admin/dashboard" routerLinkActive="router-active-style"
+                            *ngIf="isAdmin">Admin Dashboard</a>
+                        <a mat-list-item routerLink="manager/dashboard" routerLinkActive="router-active-style"
+                            *ngIf="!isAdmin">Manager Dashboard</a>
+                    </div>
+                    <div>
+                        <a mat-list-item routerLink="dashboard" routerLinkActive="router-active-style">Dashboard</a>
+                    </div>
+                    <div>
+                        <a mat-list-item routerLink="projects" routerLinkActive="router-active-style">Projects</a>
+                    </div>
+                </mat-nav-list>
+            </mat-sidenav>
+
+            <mat-sidenav-content class="width-100 background-white">
+                <router-outlet></router-outlet>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </div>
+</div>

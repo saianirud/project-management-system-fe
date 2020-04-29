@@ -1,0 +1,49 @@
+<div class="body-style">
+    <div fxLayout="row" class="position-relative">
+        <div>
+            <h1>{{ currentProject ? currentProject.projectName : '' }}</h1>
+        </div>
+        <div *ngIf="showEditDeleteProject()">
+            <mat-icon class="fa fa-ellipsis-h edit-icon" [matMenuTriggerFor]="appMenu"></mat-icon>
+            <mat-menu #appMenu="matMenu">
+                <button mat-menu-item (click)="updateProject()">Edit</button>
+                <button mat-menu-item (click)="deleteProject()">Delete</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between center">
+            <app-search-filter (emitSearchText)="searchText = $event"></app-search-filter>
+            <app-mat-multi-select label='Filter' [data]="users" (valuesSelected)="selectedUsers = $event">
+            </app-mat-multi-select>
+            <mat-icon class="fa fa-search color-primary search-icon" (click)="getProject()"></mat-icon>
+        </div>
+        <div class="add-div-style">
+            <button class="fa fa-plus" (click)="addIssue()"><b class="add-style">Add Issue</b></button>
+        </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="10px" cdkDropListGroup>
+        <div fxFlex="20" class="issues-outer-div-style" *ngFor="let issueCategory of issueCategories; let i = index"
+            cdkDropList [cdkDropListData]="issues[issueCategory.id]" (cdkDropListDropped)="dragDropUpdateIssue($event)"
+            [id]="i">
+            <div>{{ issueCategory.issueCategory }}</div>
+            <div class="issues-inner-div-style" *ngFor="let issue of issues[issueCategory.id] | filter: searchText"
+                (click)="openIssueDetailedView(issue.originalIndex, issue.issue.id)" cdkDrag>
+                <div class="custom-placeholder" *cdkDragPlaceholder></div>
+                <div>{{ issue.issue.issueSummary }}</div>
+                <div fxLayout="row" class="icons-div-style">
+                    <div>
+                        <mat-icon [ngClass]="issue.issue.issueType.issueTypeIcon"></mat-icon>
+                    </div>
+                    <div>
+                        <mat-icon [ngClass]="issue.issue.issuePriority.issuePriorityIcon"></mat-icon>
+                    </div>
+                    <div class="issue-id-style">
+                        {{ issue.issue.id }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

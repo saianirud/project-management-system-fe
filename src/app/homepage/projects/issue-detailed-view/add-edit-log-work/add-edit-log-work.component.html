@@ -1,0 +1,39 @@
+<div>
+    <div class="position-relative" fxLayout="row">
+        <h3>Log Work</h3>
+        <div class="close-div-style">
+            <mat-icon class="fa fa-times close-icon" (click)="closeDialog()"></mat-icon>
+        </div>
+    </div>
+    <div>
+        <form [formGroup]="workLogForm">
+            <div>
+                <mat-form-field>
+                    <mat-label>Time Spent</mat-label>
+                    <input matInput formControlName="timeSpent" required>
+                    <mat-error *ngIf="workLogForm.get('timeSpent').invalid">Invalid format. Eg: 2w 3d 4h 2m
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field fxFlex="90">
+                    <mat-label>Work Description</mat-label>
+                    <textarea matInput formControlName="workDescription"></textarea>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Log Date Time</mat-label>
+                    <input matInput [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" [(ngModel)]="logDateTime"
+                        (ngModelChange)="onSelectionLogDateTime()" [ngModelOptions]="{standalone: true}" required>
+                    <owl-date-time #dt1></owl-date-time>
+
+                </mat-form-field>
+            </div>
+            <div fxLayoutAlign="center center">
+                <button mat-button fxFlex="40" class="button-style" [disabled]="workLogForm.invalid"
+                    (click)="submitWorkLog()">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
