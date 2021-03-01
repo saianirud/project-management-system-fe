@@ -26,14 +26,11 @@ import { EditProjectComponent } from './projects/edit-project/edit-project.compo
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AddEditLogWorkComponent } from './projects/issue-detailed-view/add-edit-log-work/add-edit-log-work.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SummaryComponent } from './dashboard/summary/summary.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { AssignedIssuesComponent } from './dashboard/assigned-issues/assigned-issues.component';
-import { WorklogsComponent } from './dashboard/worklogs/worklogs.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AdminManagerDashboardComponent } from './admin-manager-dashboard/admin-manager-dashboard.component';
 import { EditUserComponent } from './admin-manager-dashboard/edit-user/edit-user.component';
@@ -62,9 +59,6 @@ export const MY_DATE_FORMATS = {
         IssueDetailedViewComponent,
         EditProjectComponent,
         AddEditLogWorkComponent,
-        SummaryComponent,
-        AssignedIssuesComponent,
-        WorklogsComponent,
         AdminManagerDashboardComponent,
         EditUserComponent,
         LinkIssuesComponent
